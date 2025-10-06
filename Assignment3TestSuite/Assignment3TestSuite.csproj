@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CIT12Assignment3.csproj" />
+    <ProjectReference Include="..\CIT12Assignment3\CIT12Assignment3.csproj" />
   </ItemGroup>
 
 </Project>

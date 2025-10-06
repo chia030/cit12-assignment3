@@ -2,7 +2,7 @@
 
 namespace CIT12Assignment3
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
