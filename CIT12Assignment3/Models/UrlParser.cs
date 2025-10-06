@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 public class UrlParser
 {
     public bool HasId { get; set; }
@@ -33,4 +32,6 @@ public class UrlParser
         return true;
     }
 }
+
+
 
