@@ -37,6 +37,15 @@ using System.Linq;
             _categories[id] = new Category { Cid = id, Name = name };
             return true;
         }
+         public async IAsyncEnumerable<Category> GetCategoriesAsync()
+ {
+     foreach (var category in _categories.Values)
+     {
+         await Task.Delay(100); // Simulate async work
+         yield return category;
+     }
+ }
     }
+
 
 
