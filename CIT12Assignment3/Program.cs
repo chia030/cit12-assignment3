@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assignment3
+namespace CIT12Assignment3
 {
     internal class Program
     {
