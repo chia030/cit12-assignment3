@@ -1,8 +1,8 @@
 # Preliminary folder structure:
 
-CITAssignment3/  
+CIT12Assignment3/  
 │  
-├── CITAssignment3.csproj  
+├── CIT12Assignment3.csproj  
 ├── Program.cs  
 │  
 ├── Models/  
