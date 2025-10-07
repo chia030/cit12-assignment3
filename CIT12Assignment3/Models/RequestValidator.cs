@@ -32,7 +32,11 @@ public class RequestValidator
 
 
        if (string.IsNullOrEmpty(request.Method)) errors.Add("missing method");
-       if (string.IsNullOrEmpty(request.Path)) errors.Add("missing path");
+        // Path is required for CRUD methods but not for echo
+        if (request.Method is null || request.Method.ToLower() is not "echo")
+        {
+            if (string.IsNullOrEmpty(request.Path)) errors.Add("missing path");
+        }
        if (string.IsNullOrEmpty(request.Date)) errors.Add("missing date");
 
 
@@ -40,22 +44,71 @@ public class RequestValidator
            errors.Add("illegal method");
 
 
-       // Validate body based on method
-       if (request.Method is "create" or "update")
+        // Validate body based on method
+        if (request.Method is "create" or "update")
+        {
+            if (request.Body == null)
+            {
+                errors.Add("missing body");
+            }
+            else if (request.Body is string s)
+            {
+                // Accept JSON string bodies for create/update
+                try
+                {
+                    _ = System.Text.Json.JsonDocument.Parse(s);
+                }
+                catch
+                {
+                    errors.Add("illegal body");
+                }
+            }
+            else if (request.Body is System.Text.Json.JsonElement je)
+            {
+                try
+                {
+                    if (je.ValueKind == System.Text.Json.JsonValueKind.String)
+                    {
+                        var str = je.GetString();
+                        _ = System.Text.Json.JsonDocument.Parse(str ?? "");
+                    }
+                    else if (je.ValueKind == System.Text.Json.JsonValueKind.Object)
+                    {
+                        // object is fine
+                    }
+                    else
+                    {
+                        errors.Add("illegal body");
+                    }
+                }
+                catch
+                {
+                    errors.Add("illegal body");
+                }
+            }
+            else if (request.Body is not Dictionary<string, object>)
+            {
+                errors.Add("illegal body");
+            }
+        }
+
+
+        if (request.Method == "echo")
        {
            if (request.Body == null)
                errors.Add("missing body");
-           else if (request.Body is not Dictionary<string, object>)
-               errors.Add("illegal body");
-       }
-
-
-       if (request.Method == "echo")
-       {
-           if (request.Body == null)
-               errors.Add("missing body");
-           else if (request.Body is not string)
-               errors.Add("illegal body");
+            else if (request.Body is string)
+            {
+                // ok
+            }
+            else if (request.Body is System.Text.Json.JsonElement je && je.ValueKind == System.Text.Json.JsonValueKind.String)
+            {
+                // ok
+            }
+            else
+            {
+                errors.Add("illegal body");
+            }
        }
 
 
