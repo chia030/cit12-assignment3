@@ -9,16 +9,10 @@ namespace CIT12Assignment3
             Console.WriteLine("=== CIT Assignment 3 ===");
             Console.WriteLine("Network Service using CJTP Protocol");
             Console.WriteLine("=====================================");
-            Console.WriteLine("Server initialization placeholder...");
-            Console.WriteLine("Press Ctrl+C to exit.");
+            Console.WriteLine("Starting TCP server on port 5000 ...");
 
-            // TODO: implement TCP listener and service logic here.
-            // This is where your main server loop will eventually go.
-            while (true)
-            {
-                // Placeholder idle loop
-                Thread.Sleep(1000);
-            }
+            var server = new TcpServer(5000);
+            server.Start();
         }
     }
 }

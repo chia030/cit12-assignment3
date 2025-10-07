@@ -25,7 +25,7 @@ public class ResponseService
        {
            return JsonSerializer.Serialize(response, _jsonOptions);
        }
-       catch (JsonException ex)
+       catch (JsonException)
        {
            // If serialization fails, return an error response
            var errorResponse = new Response
@@ -80,12 +80,12 @@ public class ResponseService
 
 
    // Create error Response with error message
-   public Response CreateErrorResponse(string errorMessage)
+   public Response CreateErrorResponse(string? errorMessage = null)
    {
        return new Response
        {
            Status = "4 Bad Request",
-           Body = errorMessage
+           Body = null
        };
    }
 
@@ -96,7 +96,7 @@ public class ResponseService
        return new Response
        {
            Status = "5 Not found",
-           Body = ""
+           Body = null
        };
    }
 

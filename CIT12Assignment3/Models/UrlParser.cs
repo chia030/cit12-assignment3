@@ -4,7 +4,7 @@ using System.Linq;
 public class UrlParser
 {
    public bool HasId { get; set; }
-   public int Id { get; set; }
+   public string Id { get; set; } = "";
    public string Path { get; set; } = "";
 
 
@@ -24,12 +24,13 @@ public class UrlParser
        if (int.TryParse(segments.Last(), out int parsedId))
        {
            HasId = true;
-           Id = parsedId;
+           Id = parsedId.ToString();
            Path = "/" + string.Join("/", segments.Take(segments.Length - 1));
        }
        else
        {
            HasId = false;
+           Id = "";
            Path = "/" + string.Join("/", segments);
        }
 
