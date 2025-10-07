@@ -6,8 +6,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 
-namespace CIT12Assignment3
-{
     public class TcpServer
     {
         private readonly int _port;
@@ -76,7 +74,7 @@ namespace CIT12Assignment3
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: " + e.Message);
-                    // SendResponse(writer, 6, "Error", null);
+                    // SendResponse(writer, response);
                 }
             }
         }
@@ -86,7 +84,7 @@ namespace CIT12Assignment3
             // Chris =>
         }
 
-        private void SendResponse(StreamWriter writer, int status, string message, object? body)
+        private void SendResponse(StreamWriter writer, Response response)
         {
             // Chris =>
             // var res = new Response
@@ -100,4 +98,4 @@ namespace CIT12Assignment3
             // writer.WriteLine(json);
         }
     }
-}
+
