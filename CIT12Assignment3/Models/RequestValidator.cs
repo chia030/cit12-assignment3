@@ -44,14 +44,14 @@ public class RequestValidator
         {
             var createOrUpdateBody = JsonSerializer.Deserialize<CreateOrUpdateBody>(body);
             if (createOrUpdateBody == null)
-                return (false, "invalid body");
+                return (false, "illegal body");
 
             // semantic checks
             else if (createOrUpdateBody.id <= 0)
-                return (false, "invalid body");
+                return (false, "illegal body");
 
             else if (string.IsNullOrWhiteSpace(createOrUpdateBody.name))
-                return (false, "invalid body");
+                return (false, "illegal body");
 
             return (true, "none");
         }
@@ -82,7 +82,7 @@ public class RequestValidator
             errors.Add("missing date");
 
         // body check
-        if (request.Method is "create" or "update" or "echo" & request.Body is not null)
+        if (request.Method is "create" or "update" or "echo" & !string.IsNullOrWhiteSpace(request.Body))
         {
             // case: "CREATE" or "UPDATE"
             if (request.Method is "create" or "update")
@@ -91,43 +91,16 @@ public class RequestValidator
                 if (!isValidBody.isValid) errors.Add(isValidBody.errorType);
             }
             // case: "ECHO"
-            if (request.Method is "echo")
-            {
-                // if
-            }
+            // nothing else needed
         }
-        else errors.Add("invalid body");
-        // incomplete [...]
+        else errors.Add("missing body");
 
+        return new Response
+        {
+            // split status and body || TODO: change back to one Status
+            Status = !errors.Any() ? "1 Ok" : "4 Bad Request",
+            Body = $"{string.Join(", ", errors)}"
 
-
-
-
+        };
     }
-
-    // public Response ValidateRequest1(Request request)
-    // {
-    //     var errors = new List<string>();
-
-    //     if (string.IsNullOrEmpty(request.Method)) errors.Add("missing method");
-    //     if (string.IsNullOrEmpty(request.Path)) errors.Add("missing path");
-    //     if (!request.Date.HasValue) errors.Add("missing date");
-
-    //     if (request.Method != null && !ValidMethods.Contains(request.Method.ToLower()))
-    //         errors.Add("illegal method");
-
-    //     if (request.Method is "create" or "update" && request.Body is not Dictionary<string, object>)
-    //         errors.Add("invalid body for create/update");
-
-    //     if (request.Method == "echo" && request.Body is not string)
-    //         errors.Add("invalid body for echo");
-
-    //     // should return a Response obj?
-    //     return new Response
-    //     {
-    //         // split status and body
-    //         Status = errors.Count == 0 ? "1 Ok" : $"4 Bad Request: {string.Join(", ", errors)}"
-
-    //     };
-    // }
 }

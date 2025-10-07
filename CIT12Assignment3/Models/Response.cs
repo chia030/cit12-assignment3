@@ -2,7 +2,7 @@ public class Response
 // Chiara: fixed Response to match CJTP
 {
     public string Status { get; set; } = "1 Ok";
-    public object? Body { get; set; }
+    public string? Body { get; set; }
 }
 
 /*
